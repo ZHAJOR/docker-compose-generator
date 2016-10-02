@@ -1,8 +1,8 @@
 # Docker-compose-generator
 
 ## Required
--Docker
--Docker-compose
+-Docker  
+-Docker-compose  
 -Python3
 
 
@@ -35,9 +35,9 @@ You don't need to change anything else in the file.
 If you do --no-db you do not need to add --no-db-admin.
 
 ## Example
-`python3 docker-gen.py --name mylittle-project --port 5300 --no-front --no-db`
-It will create an api configuration with default (phalcon). Now just do :
-`docker-compose up -d`
+`python3 docker-gen.py --name mylittle-project --port 5300 --no-front --no-db`  
+It will create an api configuration with default (phalcon). Now just do :  
+`docker-compose up -d`  
 It's running ! With the default configuration the api directory is ./api and needs a public directory inside.
 
 
