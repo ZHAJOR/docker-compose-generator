@@ -84,13 +84,13 @@ db_administration_configuration = {
 
 def check_images(args):
     if args.api is not None:
-        default_image['api'] = images_available['api'][args.api]
+        api_configuration['image'] = images_available['api'][args.api]
     if args.front is not None:
-        default_image['front'] = images_available['front'][args.front]
+        front_configuration['image'] = images_available['front'][args.front]
     if args.db is not None:
-        default_image['db'] = images_available['db'][args.db]
+        db_configuration['image'] = images_available['db'][args.db]
     if args.db_admin is not None:
-        default_image['db_administration'] = images_available['db_administration'][args.db_admin]
+        db_administration_configuration['image'] = images_available['db_administration'][args.db_admin]
 
 
 def update_conf(config):
@@ -187,11 +187,8 @@ class ImageBlock:
         return value + "\n\n"
 
 
-
 check_file_exists()
 check_images(args)
-print(args.api)
-print(default_image['api'])
 
 if not args.no_front:
     update_conf(front_configuration)
