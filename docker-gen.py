@@ -25,26 +25,6 @@ default_image = {'api': images_available['api']['phalcon'],
 
 default_compose_version = 2
 
-
-parser = argparse.ArgumentParser(description='Create your docker-compose configuration within a minute')
-parser.add_argument('--name', help='The project name', required=True, metavar='my-project')
-parser.add_argument('--port', help='The port', required=True, metavar='24000')
-parser.add_argument('--file', help='The output file name', metavar='docker-compose.yml', default='docker-compose.yml')
-parser.add_argument('--no-front', dest='no_front', help='Do not use a front container', action='store_true')
-parser.add_argument('--no-api', dest='no_api', help='Do not use an api container', action='store_true')
-parser.add_argument('--no-db', dest='no_db', help='Do not use a db container', action='store_true')
-parser.add_argument('--no-db-admin', dest='no_db_admin', help='Do not use a db configuration container', action='store_true')
-parser.add_argument('--api', help='The image to use for an api', metavar='phalcon')
-parser.add_argument('--front', help='The image to use for an api', metavar='angular')
-parser.add_argument('--db', help='The image to use for an api', metavar='postgres')
-parser.add_argument('--db-admin', help='The image to use for an api', metavar='phppgadmin')
-args = parser.parse_args()
-
-defined_port = int(args.port)
-defined_base_container_name = args.name + "-"
-document = "version: '" + str(default_compose_version) + "'\n\nservices:\n"
-default_networks = "networks:\n  net:"
-
 api_configuration = {
     'image': default_image['api'],
     'ports': [80],
@@ -80,6 +60,26 @@ db_administration_configuration = {
     'environments': [['DB_PORT', '5432'],
                      ['DB_HOST', 'http://database']]
 }
+
+
+parser = argparse.ArgumentParser(description='Create your docker-compose configuration within a minute')
+parser.add_argument('--name', help='The project name', required=True, metavar='my-project')
+parser.add_argument('--port', help='The port', required=True, metavar='24000')
+parser.add_argument('--file', help='The output file name', metavar='docker-compose.yml', default='docker-compose.yml')
+parser.add_argument('--no-front', dest='no_front', help='Do not use a front container', action='store_true')
+parser.add_argument('--no-api', dest='no_api', help='Do not use an api container', action='store_true')
+parser.add_argument('--no-db', dest='no_db', help='Do not use a db container', action='store_true')
+parser.add_argument('--no-db-admin', dest='no_db_admin', help='Do not use a db configuration container', action='store_true')
+parser.add_argument('--api', help='The image to use for an api', metavar='phalcon')
+parser.add_argument('--front', help='The image to use for an api', metavar='angular')
+parser.add_argument('--db', help='The image to use for an api', metavar='postgres')
+parser.add_argument('--db-admin', help='The image to use for an api', metavar='phppgadmin')
+args = parser.parse_args()
+
+defined_port = int(args.port)
+defined_base_container_name = args.name + "-"
+document = "version: '" + str(default_compose_version) + "'\n\nservices:\n"
+default_networks = "networks:\n  net:"
 
 
 def check_images(args):
