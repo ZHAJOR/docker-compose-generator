@@ -43,7 +43,7 @@ args = parser.parse_args()
 defined_port = int(args.port)
 defined_base_container_name = args.name + "-"
 document = "version: '" + str(default_compose_version) + "'\n\nservices:\n"
-default_networks = "networks:\n\tnet:"
+default_networks = "networks:\n  net:"
 
 api_configuration = {
     'image': default_image['api'],
@@ -96,7 +96,7 @@ def check_images(args):
 def update_conf(config):
     new_conf = []
     for p in config['ports']:
-        new_conf.append([p, int(args.port)])
+        new_conf.append([int(args.port), p])
         print(config['container-name'] + " set to port " + args.port)
         args.port = str(int(args.port) + 1)
         config['ports'] = new_conf
@@ -108,7 +108,6 @@ class colors:
     GREEN = '\033[92m'
     FAIL = '\033[91m'
     ENDC = '\033[0m'
-
 
 
 def check_file_exists():
@@ -134,7 +133,7 @@ class ImageBlock:
     """All the variables in this array will not be put in the docker compose block code"""
 
     def __init__(self, name):
-        self.block = "\t" + name + ":"
+        self.block = "  " + name + ":"
 
     def set_from_conf(self, conf):
         if 'image' in conf:
@@ -151,33 +150,33 @@ class ImageBlock:
             self.set_environments(conf.get('environments'))
 
     def set_image(self, name):
-        self.image += "\n\t\timage: " + name
+        self.image += "\n    image: " + name
 
     def set_ports(self, ports):
-        self.ports += '\n\t\tports:'
+        self.ports += '\n    ports:'
         for port in ports:
-            self.ports += '\n\t\t\t- "' + str(port[0]) + ':' + str(port[1]) + '"'
+            self.ports += '\n      - "' + str(port[0]) + ':' + str(port[1]) + '"'
 
     def set_container_name(self, container_name):
-        self.container_name += "\n\t\tcontainer_name: " + defined_base_container_name + container_name
+        self.container_name += "\n    container_name: " + defined_base_container_name + container_name
 
     def set_volumes(self, volumes):
-        self.volumes += "\n\t\tvolumes:"
+        self.volumes += "\n    volumes:"
         for volume in volumes:
-            self.volumes += "\n\t\t\t- " + volume[0] + ":" + volume[1]
+            self.volumes += "\n      - " + volume[0] + ":" + volume[1]
 
     def set_networks(self, networks):
-        self.networks += "\n\t\tnetworks:"
+        self.networks += "\n    networks:"
         for net in networks:
-            self.networks += '\n\t\t\t' + net[0] + ':'
-            self.networks += '\n\t\t\t\taliases:'
+            self.networks += '\n      ' + net[0] + ':'
+            self.networks += '\n        aliases:'
             for alias in net[1]:
-                self.networks += "\n\t\t\t\t\t- " + alias
+                self.networks += "\n          - " + alias
 
     def set_environments(self, environments):
-        self.environments += "\n\t\tenvironment:"
+        self.environments += "\n    environment:"
         for environment in environments:
-            self.environments += "\n\t\t\t- "+environment[0]+"="+environment[1]
+            self.environments += "\n      - "+environment[0]+"="+environment[1]
 
     def get(self):
         value = self.block
