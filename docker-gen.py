@@ -47,9 +47,9 @@ db_configuration = {
     'container-name': 'db',
     'volumes': [['./database/data', '/var/lib/postgresql/data']],
     'networks': [['net', ['database']]],
-    'environments': [['POSTGRES_USER', '/api'],
-                     ['POSTGRES_DB', 'http://api'],
-                     ['POSTGRES_PASSWORD', 'http://api']]
+    'environments': [['POSTGRES_USER', 'postgres'],
+                     ['POSTGRES_DB', 'postgres'],
+                     ['POSTGRES_PASSWORD', 'postgres']]
 }
 
 db_administration_configuration = {
@@ -58,7 +58,7 @@ db_administration_configuration = {
     'container-name': 'db_administration',
     'networks': [['net', ['phppgadmin']]],
     'environments': [['DB_PORT', '5432'],
-                     ['DB_HOST', 'http://database']]
+                     ['DB_HOST', 'database']]
 }
 
 
